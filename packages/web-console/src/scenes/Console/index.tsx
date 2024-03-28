@@ -206,7 +206,7 @@ const Console = () => {
                     <Tooltip>{tooltipText}</Tooltip>
                   </PopperHover>
                 ))}
-              <PopperHover
+              {/* <PopperHover
                 placement="right"
                 trigger={
                   <PrimaryToggleButton
@@ -228,7 +228,7 @@ const Console = () => {
                     ? "To use this feature, turn off read-only mode in the configuration file"
                     : "Import files from CSV"}
                 </Tooltip>
-              </PopperHover>
+              </PopperHover> */}
             </Sidebar>
             <Tab ref={resultRef}>
               {result && <Result viewMode={resultViewMode} />}

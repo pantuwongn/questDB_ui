@@ -108,12 +108,12 @@ export const Version = () => {
               {serverDetails.instance_name}
             </Badge>
           )}
-          {serverDetails.current_user && (
+          {/* {serverDetails.current_user && (
             <User>
               <UserIcon size="18px" />
               <Text color="foreground">{serverDetails.current_user}</Text>
             </User>
-          )}
+          )} */}
         </Box>
       )}
     </Root>
