@@ -39,7 +39,7 @@ if (!process.env.NODE_ENV) {
 
 const config = {
   port: 9999,
-  backendUrl: "http://127.0.0.1:9000",
+  backendUrl: "http://188.166.235.85:9000",
   assetPath: process.env.ASSET_PATH || "/",
   isProduction: process.env.NODE_ENV === "production",
 }

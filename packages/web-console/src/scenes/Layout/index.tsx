@@ -89,9 +89,9 @@ const Layout = () => {
           <Drawer id="side-panel-right" />
 
           <Sidebar align="top">
-            <Help />
+            {/* <Help />
 
-            <News />
+            <News /> */}
 
             <CreateTableDialog />
           </Sidebar>

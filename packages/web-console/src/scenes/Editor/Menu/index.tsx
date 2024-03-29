@@ -192,7 +192,7 @@ const Menu = () => {
         </SuccessButton>
       )}
 
-      <MenuItems>
+      {/* <MenuItems>
         <DocSearch
           appId="QL9L2YL7AQ"
           apiKey="2f67aeacbe73ad08a49efb9214ea27f3"
@@ -210,7 +210,7 @@ const Menu = () => {
             },
           }}
         />
-      </MenuItems>
+      </MenuItems> */}
 
       {sm && (
         <SideMenuMenuButton onClick={handleSideMenuButtonClick}>
