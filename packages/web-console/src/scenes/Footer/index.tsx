@@ -109,15 +109,15 @@ const Footer = () => {
 
   return (
     <Wrapper id="footer">
-      <LeftContainer>
+      {/* <LeftContainer>
         <Text color="foreground">
           Copyright &copy; {new Date().getFullYear()} QuestDB
         </Text>
-      </LeftContainer>
+      </LeftContainer> */}
       <RightContainer>
         <ConnectionStatus />
-        {showBuildVersion && <BuildVersion />}
-        <Link
+        {/* {showBuildVersion && <BuildVersion />} */}
+        {/* <Link
           color="foreground"
           hoverColor="cyan"
           href="https://github.com/questdb/questdb"
@@ -125,10 +125,10 @@ const Footer = () => {
           target="_blank"
         >
           <Github size="18px" />
-        </Link>
+        </Link> */}
       </RightContainer>
 
-      <GithubBannerTransition />
+      {/* <GithubBannerTransition />
       <CSSTransition
         classNames="github-banner"
         in={showBanner && githubBanner}
@@ -136,7 +136,7 @@ const Footer = () => {
         unmountOnExit
       >
         <GithubBanner onClick={handleClick} />
-      </CSSTransition>
+      </CSSTransition> */}
     </Wrapper>
   )
 }

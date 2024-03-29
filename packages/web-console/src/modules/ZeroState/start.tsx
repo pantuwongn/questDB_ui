@@ -65,10 +65,10 @@ export const Start = () => {
         Enter a query and press <Text color="green">Run</Text> to view results.
       </StyledHeading>
       <Actions>
-        <Action
-          onClick={() =>
-            dispatch(actions.console.setActiveBottomPanel("import"))
-          }
+        {/* <Action
+          // onClick={() =>
+          //   dispatch(actions.console.setActiveBottomPanel("import"))
+          // }
         >
           <img
             alt="File upload icon"
@@ -77,7 +77,7 @@ export const Start = () => {
             src="/assets/upload.svg"
           />
           <Heading level={5}>Import CSV</Heading>
-        </Action>
+        </Action> */}
         <Action
           onClick={() => dispatch(actions.console.setActiveSidebar("create"))}
         >
@@ -90,7 +90,7 @@ export const Start = () => {
           <Heading level={5}>Create table</Heading>
         </Action>
       </Actions>
-      <StyledText color="gray2">
+      {/* <StyledText color="gray2">
         Get $200 in free credits when you sign up for{" "}
         <a
           href="https://questdb.io/cloud"
@@ -101,7 +101,7 @@ export const Start = () => {
         </a>
         .<br />
         No credit card required.
-      </StyledText>
+      </StyledText> */}
     </Items>
   )
 }
