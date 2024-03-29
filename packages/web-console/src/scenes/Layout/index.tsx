@@ -34,6 +34,7 @@ import { useSelector } from "react-redux"
 import { selectors } from "../../store"
 import News from "../../scenes/News"
 import { CreateTableDialog } from "../../components/CreateTableDialog"
+import { ExportDialog } from "../../components/ExportDialog"
 import { EditorProvider } from "../../providers"
 import { Help } from "./help"
 
@@ -94,6 +95,8 @@ const Layout = () => {
             <News /> */}
 
             <CreateTableDialog />
+
+            <ExportDialog />
           </Sidebar>
         </Root>
 
