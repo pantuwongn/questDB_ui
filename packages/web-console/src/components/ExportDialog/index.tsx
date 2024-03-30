@@ -11,7 +11,7 @@ import { BUTTON_ICON_SIZE } from "../../consts"
 import { IconWithTooltip } from "../../components/IconWithTooltip"
 
 export const ExportDialog = () => {
-  const [addTableDialogOpen, setAddTableDialogOpen] = useState<
+  const [exportDialogOpen, setExportDialogOpen] = useState<
     string | undefined
   >(undefined)
   const dispatch = useDispatch()
@@ -21,35 +21,22 @@ export const ExportDialog = () => {
   const { appendQuery } = useEditor()
 
   const handleAddTableSchema = (values: SchemaFormValues) => {
-    const { name, partitionBy, timestamp, schemaColumns, walEnabled } = values
-    const tableSchemaQuery = formatTableSchemaQuery({
-      name,
-      partitionBy,
-      timestamp,
-      walEnabled: walEnabled === "true",
-      schemaColumns: schemaColumns.map((column) => ({
-        column: column.name,
-        type: column.type,
-      })),
-      dedup: false,
-    })
-    appendQuery(tableSchemaQuery, { appendAt: "end" })
-    dispatch(actions.query.toggleRunning())
+    
   }
 
   useEffect(() => {
-    setAddTableDialogOpen(activeSidebar === "create" ? "add" : undefined)
+    setExportDialogOpen(activeSidebar === "export" ? "export" : undefined)
   }, [activeSidebar])
 
   useEffect(() => {
-    if (addTableDialogOpen !== undefined) {
-      dispatch(actions.console.setActiveSidebar("create"))
+    if (exportDialogOpen !== undefined) {
+      dispatch(actions.console.setActiveSidebar("export"))
     }
-  }, [addTableDialogOpen])
+  }, [exportDialogOpen])
 
   return (
     <TableSchemaDialog
-      action="add"
+      action="export"
       isEditLocked={false}
       hasWalSetting={true}
       walEnabled={false}
@@ -58,21 +45,21 @@ export const ExportDialog = () => {
       schema={[]}
       tables={tables}
       timestamp=""
-      onOpenChange={(open) => setAddTableDialogOpen(open)}
-      open={addTableDialogOpen !== undefined}
+      onOpenChange={(open) => setExportDialogOpen(open)}
+      open={exportDialogOpen !== undefined}
       onSchemaChange={handleAddTableSchema}
       trigger={
         <IconWithTooltip
           icon={
             <PrimaryToggleButton
-              data-hook="create-table-panel-button"
+              data-hook="export-panel-button"
               readOnly={readOnly}
-              selected={addTableDialogOpen !== undefined}
+              selected={exportDialogOpen !== undefined}
               {...(!readOnly && {
                 onClick: () => {
                   dispatch(
                     actions.console.setActiveSidebar(
-                      addTableDialogOpen ? undefined : "create",
+                      exportDialogOpen ? undefined : "export",
                     ),
                   )
                 },
@@ -87,7 +74,7 @@ export const ExportDialog = () => {
           }
         />
       }
-      ctaText="Create"
+      ctaText="Export"
     />
   )
 }

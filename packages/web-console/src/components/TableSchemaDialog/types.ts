@@ -1,4 +1,4 @@
-export type Action = "add" | "import"
+export type Action = "add" | "import" | "export"
 
 export type SchemaColumn = {
   name: string

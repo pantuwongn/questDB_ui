@@ -170,7 +170,7 @@ export const Dialog = ({
 
   return (
     <Drawer
-      mode={action === "add" ? "side" : "modal"}
+      mode={(action === "add" || action === "export" ) ? "side" : "modal"}
       open={open}
       trigger={
         trigger ?? (

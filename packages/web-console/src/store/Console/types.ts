@@ -35,7 +35,7 @@ export type QueryGroup = {
 
 export type TopPanel = "tables" | undefined
 
-export type Sidebar = "news" | "create" | undefined
+export type Sidebar = "export" | "news" | "create" | undefined
 
 export type BottomPanel = "result" | "zeroState" | "import"
 
