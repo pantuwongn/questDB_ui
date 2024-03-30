@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react"
-import { Dialog as TableSchemaDialog } from "../../components/TableSchemaDialog/dialog"
+import { Dialog as ExportCSVDialog } from "../../components/ExportCSVDialog/dialog"
 import { useDispatch, useSelector } from "react-redux"
 import { selectors, actions } from "../../store"
 import { FileExcel2 as FileIcon } from "@styled-icons/remix-line"
-import { SchemaFormValues } from "components/TableSchemaDialog/types"
+import { SchemaFormValues } from "components/ExportCSVDialog/types"
 import { formatTableSchemaQuery } from "../../utils/formatTableSchemaQuery"
 import { useEditor } from "../../providers"
 import { PrimaryToggleButton } from "../../components"
@@ -35,7 +35,7 @@ export const ExportDialog = () => {
   }, [exportDialogOpen])
 
   return (
-    <TableSchemaDialog
+    <ExportCSVDialog
       action="export"
       isEditLocked={false}
       hasWalSetting={true}
