@@ -167,7 +167,12 @@ export const Dialog = ({
   }, [open])
 
   const columnCount = defaults.schemaColumns.length
-
+  const tableNameArray = tables?.map((table) => {
+    const tableName = table.table_name
+    return tableName
+  }) ?? []
+  const filterTableNameArray = tableNameArray.filter((item) => item.startsWith('FOLDER_'))
+  const datasetIdOptions = filterTableNameArray.map((item) => item.replace('FOLDER_', ''))
   return (
     <Drawer
       mode={(action === "add" || action === "export" ) ? "side" : "modal"}
@@ -211,7 +216,7 @@ export const Dialog = ({
           validationSchema={validationSchema}
         >
           <Panel.Header
-            title={"Export Data to"}
+            title={"Export Data to CSV file"}
             afterTitle={
               <Actions
                 ctaText={ctaText}
@@ -227,10 +232,10 @@ export const Dialog = ({
                       <Form.Input name="name" autoComplete="off" />
                     </Form.Item>
                   )}
-
                   <Box align="flex-end">
                     <Form.Item
-                      name="partitionBy"
+                      name="datasetId"
+                      required
                       label={
                         <PopperHover
                           trigger={
@@ -240,81 +245,166 @@ export const Dialog = ({
                               gap="0.5rem"
                             >
                               <InfoCircle size="14" />
-                              <span>Partition by</span>
+                              <span>Dataset ID</span>
                             </Box>
                           }
                           placement="bottom"
                         >
                           <Tooltip>
-                            Splits data into smaller chunks by intervals of time
-                            in order to improve the performance and scalability
-                            of the database system.
+                            An ID of the dataset to be exported.
                           </Tooltip>
                         </PopperHover>
                       }
                     >
                       <Form.Select
-                        name="partitionBy"
-                        options={partitionByOptions.map((item) => ({
+                        name="datasetId"
+                        options={datasetIdOptions.map((item) => ({
                           label: item,
                           value: item,
                         }))}
                       />
                     </Form.Item>
                   </Box>
-
-                  {hasWalSetting && (
-                    <Box align="flex-end">
-                      <Form.Item
-                        name="walEnabled"
-                        label={
-                          <PopperHover
-                            trigger={
-                              <Box
-                                align="center"
-                                justifyContent="center"
-                                gap="0.5rem"
-                              >
-                                <InfoCircle size="14" />
-                                <span>WAL</span>
-                              </Box>
-                            }
-                            placement="bottom"
-                          >
-                            <Tooltip>
-                              WAL (Write-Ahead Log) allows concurrent data
-                              ingestion and modifications via multiple
-                              interfaces as well as table schema changes.
-                              {currentValues.partitionBy === "NONE" && (
-                                <>
-                                  <br />
-                                  <br />
-                                  To enable WAL, set `Partition by` to a value
-                                  other than NONE.
-                                </>
-                              )}
-                            </Tooltip>
-                          </PopperHover>
-                        }
-                      >
-                        <Form.Select
-                          name="walEnabled"
-                          disabled={currentValues.partitionBy === "NONE"}
-                          options={[
-                            { label: "Enabled", value: "true" },
-                            { label: "Disabled", value: "false" },
-                          ]}
-                        />
-                      </Form.Item>
-                    </Box>
-                  )}
-
-                  {action === "import" && (
-                    <Text color="gray2">
-                      If you're changing the partitioning strategy, you'll need
-                      to set `Write mode` to `Overwrite` in Settings.
-                    </Text>
-                  )}
+                  <Box align="flex-end">
+                    <Form.Item
+                      name="samplingInterval"
+                      label={
+                        <PopperHover
+                          trigger={
+                            <Box
+                              align="center"
+                              justifyContent="center"
+                              gap="0.5rem"
+                            >
+                              <InfoCircle size="14" />
+                              <span>Sampling Interval (seconds)</span>
+                            </Box>
+                          }
+                          placement="bottom"
+                        >
+                          <Tooltip>
+                            An interval in seconds to sample data.
+                          </Tooltip>
+                        </PopperHover>
+                      }
+                    >
+                      <Form.Input
+                        name="samplingInterval"
+                      />
+                    </Form.Item>
+                  </Box>
+                  <Box align="flex-end">
+                    <Form.Item
+                      name="sampleSpeed"
+                      label={
+                        <PopperHover
+                          trigger={
+                            <Box
+                              align="center"
+                              justifyContent="center"
+                              gap="0.5rem"
+                            >
+                              <InfoCircle size="14" />
+                              <span>Sampling seed (seconds)</span>
+                            </Box>
+                          }
+                          placement="bottom"
+                        >
+                          <Tooltip>
+                            A seed in seconds to sample data.
+                          </Tooltip>
+                        </PopperHover>
+                      }
+                    >
+                      <Form.Input
+                        name="samplingInterval"
+                      />
+                    </Form.Item>
+                  </Box>
+                  <Box align="flex-end">
+                    <Form.Item
+                      name="beginDt"
+                      label={
+                        <PopperHover
+                          trigger={
+                            <Box
+                              align="center"
+                              justifyContent="center"
+                              gap="0.5rem"
+                            >
+                              <InfoCircle size="14" />
+                              <span>Beginning Date/Time</span>
+                            </Box>
+                          }
+                          placement="bottom"
+                        >
+                          <Tooltip>
+                            Date and time to start exporting data from.
+                          </Tooltip>
+                        </PopperHover>
+                      }
+                    >
+                      <Form.Input
+                        name="beginDt"
+                      />
+                    </Form.Item>
+                  </Box>
+                  <Box align="flex-end">
+                    <Form.Item
+                      name="endDt"
+                      label={
+                        <PopperHover
+                          trigger={
+                            <Box
+                              align="center"
+                              justifyContent="center"
+                              gap="0.5rem"
+                            >
+                              <InfoCircle size="14" />
+                              <span>Ending Date/Time</span>
+                            </Box>
+                          }
+                          placement="bottom"
+                        >
+                          <Tooltip>
+                            Date and time to stop exporting data from.
+                          </Tooltip>
+                        </PopperHover>
+                      }
+                    >
+                      <Form.Input
+                        name="endDt"
+                      />
+                    </Form.Item>
+                  </Box>
+                  <Box align="flex-end">
+                    <Form.Item
+                      name="limit"
+                      label={
+                        <PopperHover
+                          trigger={
+                            <Box
+                              align="center"
+                              justifyContent="center"
+                              gap="0.5rem"
+                            >
+                              <InfoCircle size="14" />
+                              <span>Number of records</span>
+                            </Box>
+                          }
+                          placement="bottom"
+                        >
+                          <Tooltip>
+                            A number to limit number of records to be exported.
+                          </Tooltip>
+                        </PopperHover>
+                      }
+                    >
+                      <Form.Input
+                        name="limit"
+                      />
+                    </Form.Item>
+                  </Box>
                 </Controls>
               </Drawer.GroupItem>
             </Inputs>
