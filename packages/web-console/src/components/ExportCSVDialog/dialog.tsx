@@ -204,7 +204,7 @@ export const Dialog = ({
         }
       }}
     >
-      <StyledContentWrapper mode={action === "add" ? "side" : "modal"}>
+      <StyledContentWrapper mode={ "side" }>
         <Form<SchemaFormValues>
           name="table-schema"
           defaultValues={defaults}
@@ -283,7 +283,7 @@ export const Dialog = ({
                           placement="bottom"
                         >
                           <Tooltip>
-                            An interval in seconds to sample data.
+                            An interval in seconds to sample data. If not set, all data will be exported.
                           </Tooltip>
                         </PopperHover>
                       }
@@ -311,7 +311,8 @@ export const Dialog = ({
                           placement="bottom"
                         >
                           <Tooltip>
-                            A seed in seconds to sample data.
+                            A seed in seconds to sample data. If not set, all data will be exported.
+                            Note: this values required the sampling interval to be set.
                           </Tooltip>
                         </PopperHover>
                       }
@@ -339,12 +340,14 @@ export const Dialog = ({
                           placement="bottom"
                         >
                           <Tooltip>
-                            Date and time to start exporting data from.
+                            Date and time to start exporting data from. If not set, all data will be exported.
+                            Note, to reset the value, please clear the input field by select "clear" on the picker.
                           </Tooltip>
                         </PopperHover>
                       }
                     >
                       <Form.Input
+                        type="datetime-local"
                         name="beginDt"
                       />
                     </Form.Item>
@@ -367,12 +370,14 @@ export const Dialog = ({
                           placement="bottom"
                         >
                           <Tooltip>
-                            Date and time to stop exporting data from.
+                            Date and time to stop exporting data from. If not set, all data will be exported.
+                            Note, to reset the value, please clear the input field by select "clear" on the picker.
                           </Tooltip>
                         </PopperHover>
                       }
                     >
                       <Form.Input
+                        type="datetime-local"
                         name="endDt"
                       />
                     </Form.Item>
@@ -395,7 +400,7 @@ export const Dialog = ({
                           placement="bottom"
                         >
                           <Tooltip>
-                            A number to limit number of records to be exported.
+                            A number to limit number of records to be exported. If not set, all data will be exported.
                           </Tooltip>
                         </PopperHover>
                       }

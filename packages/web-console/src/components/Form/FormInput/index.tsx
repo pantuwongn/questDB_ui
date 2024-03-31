@@ -16,6 +16,9 @@ export type FormInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 const Wrapper = styled.div<{ autoComplete: FormInputProps["autoComplete"] }>`
   display: flex;
   width: 100%;
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
   ${(props) =>
     props.autoComplete === "off" &&
     `
