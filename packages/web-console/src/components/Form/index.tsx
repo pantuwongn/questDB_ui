@@ -30,6 +30,7 @@ export type Props<TFormValues> = {
   onDirtyChange?: DirtyChangeObserver<TFormValues>
   children: React.ReactNode
   validationSchema?: Schema
+  validationExportForm?: Schema
   defaultValues?: UseFormProps<TFormValues>["defaultValues"]
   preventSubmitOnEnter?: boolean
 }
@@ -44,6 +45,7 @@ export const Form = <
   onDirtyChange,
   children,
   validationSchema,
+  validationExportForm,
   defaultValues,
   preventSubmitOnEnter,
 }: Props<TFormValues>) => {
@@ -55,6 +57,10 @@ export const Form = <
 
   if (validationSchema) {
     props.resolver = joiResolver(validationSchema)
+  }
+
+  if (validationExportForm) {
+    props.resolver = joiResolver(validationExportForm)
   }
 
   const methods = useForm<TFormValues>(props)

@@ -336,22 +336,22 @@ export const FilesToUpload = ({
                   />
                 ),
               },
-              {
-                align: "flex-end",
-                width: "300px",
-                render: ({ data }) => (
-                  <UploadActions
-                    file={data}
-                    onUpload={onFileUpload}
-                    onRemove={onFileRemove}
-                    onSettingsChange={(settings) => {
-                      onFilePropertyChange(data.id, {
-                        settings,
-                      })
-                    }}
-                  />
-                ),
-              },
+              // {
+              //   align: "flex-end",
+              //   width: "300px",
+              //   render: ({ data }) => (
+              //     <UploadActions
+              //       file={data}
+              //       onUpload={onFileUpload}
+              //       onRemove={onFileRemove}
+              //       onSettingsChange={(settings) => {
+              //         onFilePropertyChange(data.id, {
+              //           settings,
+              //         })
+              //       }}
+              //     />
+              //   ),
+              // },
             ]}
             rows={files}
           />

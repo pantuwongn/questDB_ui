@@ -10,9 +10,8 @@ import { Columns } from "./columns"
 import { Drawer } from "../Drawer"
 import { PopperHover } from "../PopperHover"
 import { Tooltip } from "../Tooltip"
-import { Action, SchemaColumn, SchemaFormValues } from "./types"
+import { Action, ExportFormValues } from "./types"
 import Joi from "joi"
-import { isValidTableName } from "./isValidTableName"
 import * as QuestDB from "../../utils/questdb"
 import { useDispatch } from "react-redux"
 import { actions } from "../../store"
@@ -47,15 +46,14 @@ const partitionByOptions = ["NONE", "HOUR", "DAY", "MONTH", "YEAR"]
 type Props = {
   action: Action
   open: boolean
-  isEditLocked: boolean
-  hasWalSetting: boolean
-  walEnabled?: boolean
   onOpenChange: (openedFileName?: string) => void
-  onSchemaChange: (values: SchemaFormValues) => void
-  name: string
-  schema: SchemaColumn[]
-  partitionBy: string
-  timestamp: string
+  onFormChange: (values: ExportFormValues) => void
+  datasetId: string
+  samplingInterval?: number
+  samplingSeed?: number
+  beginDt?: string
+  endDt?: string
+  limit?: number
   trigger?: React.ReactNode
   tables?: QuestDB.Table[]
   ctaText: string
@@ -63,95 +61,98 @@ type Props = {
 
 export const Dialog = ({
   action,
-  name,
-  schema,
-  partitionBy,
-  timestamp,
+  datasetId,
+  samplingInterval,
+  samplingSeed,
+  beginDt,
+  endDt,
+  limit,
   open,
-  isEditLocked,
-  hasWalSetting,
-  walEnabled,
   onOpenChange,
-  onSchemaChange,
-  trigger,
+  onFormChange,
   tables,
   ctaText,
 }: Props) => {
   const formDefaults = {
-    name,
-    schemaColumns: schema,
-    partitionBy,
-    timestamp,
-    walEnabled: hasWalSetting ? "false" : undefined,
+    datasetId,
+    samplingInterval,
+    samplingSeed,
+    beginDt,
+    endDt,
+    limit
   }
 
-  const [defaults, setDefaults] = useState<SchemaFormValues>(formDefaults)
+  const [defaults, setDefaults] = useState<ExportFormValues>(formDefaults)
   const [currentValues, setCurrentValues] =
-    useState<SchemaFormValues>(formDefaults)
+    useState<ExportFormValues>(formDefaults)
   const [lastFocusedIndex, setLastFocusedIndex] = useState<number | undefined>()
   const dispatch = useDispatch()
 
   const resetToDefaults = () => {
     setDefaults({
-      name: name,
-      schemaColumns: schema,
-      partitionBy: partitionBy,
-      timestamp: timestamp,
-      walEnabled:
-        hasWalSetting && walEnabled !== undefined
-          ? walEnabled.toString()
-          : undefined,
+      datasetId: datasetId,
+      samplingInterval: samplingInterval,
+      samplingSeed: samplingSeed,
+      beginDt: beginDt,
+      endDt: endDt,
+      limit: limit
     })
   }
 
-  const validationSchema = Joi.object({
-    name: Joi.string()
+  const tableNameArray = tables?.map((table) => {
+    const tableName = table.table_name
+    return tableName
+  }) ?? []
+  const filterTableNameArray = tableNameArray.filter((item) => item.startsWith('FOLDER_'))
+  const datasetIdOptions = filterTableNameArray.map((item) => item.replace('FOLDER_', ''))
+
+  const isValidDateTimeFormat = (value) => {
+    const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
+    return regex.test(value);
+  };
+
+  const validationExportForm = Joi.object({
+    datasetId: Joi.string()
       .required()
       .custom((value, helpers) => {
-        if (!isValidTableName(value)) {
-          return helpers.error("string.validTableName")
-        }
-        if (
-          action === "add" &&
-          tables?.find((table) => table.table_name === value)
-        ) {
-          return helpers.error("string.uniqueTableName")
+        const tableName = `Folder_${value}`
+        if (!tableNameArray.includes(tableName)) {
+          return helpers.error("string.validDatasetId")
         }
         return value
       })
       .messages({
-        "string.empty": "Please enter a name",
-        "string.validTableName": "Invalid table name",
-        "string.uniqueTableName": "Table name must be unique",
+        "string.validTableName": "Invalid dataset id",
       }),
-    partitionBy: Joi.string()
-      .required()
-      .custom((value, helpers) => {
-        if (value !== "NONE" && currentValues.timestamp === "") {
-          return helpers.error("string.timestampRequired")
-        }
-        return value
-      })
-      .messages({
-        "string.timestampRequired":
-          "Designated timestamp is required when partitioning is set to anything other than NONE",
-      }),
-    walEnabled: Joi.any()
-      .allow(...["true", "false"])
-      .empty(),
-    timestamp: Joi.string().allow(""),
-    schemaColumns: Joi.array()
-      .custom((value, helpers) => {
-        if (action === "add" && value.length === 0) {
-          return helpers.error("array.required")
-        }
-        return value
-      })
-      .unique((a, b) => a.name === b.name)
-      .messages({
-        "array.required": "Please add at least one column",
-        "array.unique": "Column names must be unique",
-      }),
+    samplingInterval: Joi.number()
+      .integer()
+      .min(0),
+    samplingSeed: Joi.number()
+      .integer()
+      .min(0),
+    beginDt: Joi.string()
+    .custom((value, helpers) => {
+      if (!isValidDateTimeFormat(value)) {
+        return helpers.error("string.validDatetimeFormat")
+      }
+      return value
+    })
+    .messages({
+      "string.validDatetimeFormat": "Datetime format is wrong. It must be yyyy-mm-ddTHH:MM such as 2024-04-01T10:30",
+    }),
+    endDt: Joi.string()
+    .custom((value, helpers) => {
+      if (!isValidDateTimeFormat(value)) {
+        return helpers.error("string.validDatetimeFormat")
+      }
+      return value
+    })
+    .messages({
+      "string.validDatetimeFormat": "Datetime format is wrong. It must be yyyy-mm-ddTHH:MM such as 2024-04-01T10:30",
+    }),
+    limit: Joi.number()
+      .integer()
+      .min(1),
   })
 
   useEffect(() => {
@@ -167,53 +168,32 @@ export const Dialog = ({
   }, [open])
 
   const columnCount = defaults.schemaColumns.length
-  const tableNameArray = tables?.map((table) => {
-    const tableName = table.table_name
-    return tableName
-  }) ?? []
-  const filterTableNameArray = tableNameArray.filter((item) => item.startsWith('FOLDER_'))
-  const datasetIdOptions = filterTableNameArray.map((item) => item.replace('FOLDER_', ''))
+
   return (
     <Drawer
-      mode={(action === "add" || action === "export" ) ? "side" : "modal"}
+      mode={ "side" }
       open={open}
-      trigger={
-        trigger ?? (
-          <Button
-            skin={columnCount > 0 ? "transparent" : "secondary"}
-            prefixIcon={
-              columnCount > 0 ? <Edit size="18px" /> : <TableIcon size="18px" />
-            }
-            onClick={() => onOpenChange(name)}
-          >
-            {columnCount > 0
-              ? `${columnCount} col${columnCount > 1 ? "s" : ""}`
-              : "Add"}
-          </Button>
-        )
-      }
       onDismiss={() => {
         resetToDefaults()
         onOpenChange(undefined)
       }}
       onOpenChange={(isOpen) => {
-        if (isOpen && action === "add") {
+        if (isOpen) {
           dispatch(
-            actions.console.setActiveSidebar(isOpen ? "create" : undefined),
+            actions.console.setActiveSidebar("export"),
           )
         }
       }}
     >
       <StyledContentWrapper mode={ "side" }>
-        <Form<SchemaFormValues>
-          name="table-schema"
+        <Form<ExportFormValues>
+          name="export-data-form"
           defaultValues={defaults}
           onSubmit={(values) => {
-            onSchemaChange(values)
             onOpenChange(undefined)
           }}
-          onChange={(values) => setCurrentValues(values as SchemaFormValues)}
-          validationSchema={validationSchema}
+          onChange={(values) => setCurrentValues(values as ExportFormValues)}
+          validationExportForm={validationExportForm}
         >
           <Panel.Header
             title={"Export Data to CSV file"}
@@ -227,11 +207,6 @@ export const Dialog = ({
             <Inputs>
               <Drawer.GroupItem direction="column">
                 <Controls action={action}>
-                  {action === "add" && (
-                    <Form.Item name="name" label="Table name">
-                      <Form.Input name="name" autoComplete="off" />
-                    </Form.Item>
-                  )}
                   <Box align="flex-end">
                     <Form.Item
                       name="datasetId"
@@ -295,7 +270,7 @@ export const Dialog = ({
                   </Box>
                   <Box align="flex-end">
                     <Form.Item
-                      name="sampleSpeed"
+                      name="samplingSeed"
                       label={
                         <PopperHover
                           trigger={
@@ -318,7 +293,7 @@ export const Dialog = ({
                       }
                     >
                       <Form.Input
-                        name="samplingInterval"
+                        name="samplingSeed"
                       />
                     </Form.Item>
                   </Box>

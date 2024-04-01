@@ -1,16 +1,10 @@
-export type Action = "add" | "import" | "export"
+export type Action = "export"
 
-export type SchemaColumn = {
-  name: string
-  type: string
-  pattern?: string
-  precision?: string
-}
-
-export type SchemaFormValues = {
-  name: string
-  schemaColumns: SchemaColumn[]
-  partitionBy: string
-  timestamp: string
-  walEnabled?: string
+export type ExportFormValues = {
+  datasetId: string
+  samplingInterval?: number
+  samplingSeed?: number
+  beginDt?: string
+  endDt?: string
+  limit?: number
 }
