@@ -3,9 +3,7 @@ import { Dialog as ExportCSVDialog } from "../../components/ExportCSVDialog/dial
 import { useDispatch, useSelector } from "react-redux"
 import { selectors, actions } from "../../store"
 import { FileExcel2 as FileIcon } from "@styled-icons/remix-line"
-import { SchemaFormValues } from "components/ExportCSVDialog/types"
-import { formatTableSchemaQuery } from "../../utils/formatTableSchemaQuery"
-import { useEditor } from "../../providers"
+import { ExportFormValues } from "components/ExportCSVDialog/types"
 import { PrimaryToggleButton } from "../../components"
 import { BUTTON_ICON_SIZE } from "../../consts"
 import { IconWithTooltip } from "../../components/IconWithTooltip"
@@ -18,10 +16,9 @@ export const ExportDialog = () => {
   const tables = useSelector(selectors.query.getTables)
   const activeSidebar = useSelector(selectors.console.getActiveSidebar)
   const { readOnly } = useSelector(selectors.console.getConfig)
-  const { appendQuery } = useEditor()
 
-  const handleAddTableSchema = (values: SchemaFormValues) => {
-    
+  const handleFormChange = (values: ExportFormValues) => {
+    console.log("ExportDialog handleFormChange", values)
   }
 
   useEffect(() => {
@@ -37,17 +34,11 @@ export const ExportDialog = () => {
   return (
     <ExportCSVDialog
       action="export"
-      isEditLocked={false}
-      hasWalSetting={true}
-      walEnabled={false}
-      name=""
-      partitionBy="NONE"
-      schema={[]}
+      datasetId=""
       tables={tables}
-      timestamp=""
       onOpenChange={(open) => setExportDialogOpen(open)}
       open={exportDialogOpen !== undefined}
-      onSchemaChange={handleAddTableSchema}
+      onFormChange={handleFormChange}
       trigger={
         <IconWithTooltip
           icon={

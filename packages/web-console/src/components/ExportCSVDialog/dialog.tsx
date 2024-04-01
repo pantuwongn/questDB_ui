@@ -6,7 +6,6 @@ import styled from "styled-components"
 import { Table as TableIcon, Edit } from "@styled-icons/remix-line"
 import { InfoCircle } from "@styled-icons/boxicons-regular"
 import { Form } from "../Form"
-import { Columns } from "./columns"
 import { Drawer } from "../Drawer"
 import { PopperHover } from "../PopperHover"
 import { Tooltip } from "../Tooltip"
@@ -34,14 +33,11 @@ const Inputs = styled(Box).attrs({ gap: "0", flexDirection: "column" })`
 
 const Controls = styled.div<{ action: Action }>`
   display: grid;
-  grid-template-columns: ${({ action }) =>
-    action === "add" ? "auto 120px 120px" : "1fr"};
+  grid-template-columns: 1fr;
   gap: 1rem;
   align-items: flex-start;
   width: 100%;
 `
-
-const partitionByOptions = ["NONE", "HOUR", "DAY", "MONTH", "YEAR"]
 
 type Props = {
   action: Action
@@ -71,6 +67,7 @@ export const Dialog = ({
   onOpenChange,
   onFormChange,
   tables,
+  trigger,
   ctaText,
 }: Props) => {
   const formDefaults = {
@@ -106,7 +103,7 @@ export const Dialog = ({
   const filterTableNameArray = tableNameArray.filter((item) => item.startsWith('FOLDER_'))
   const datasetIdOptions = filterTableNameArray.map((item) => item.replace('FOLDER_', ''))
 
-  const isValidDateTimeFormat = (value) => {
+  const isValidDateTimeFormat = (value: string) => {
     const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
     return regex.test(value);
   };
@@ -115,22 +112,29 @@ export const Dialog = ({
     datasetId: Joi.string()
       .required()
       .custom((value, helpers) => {
-        const tableName = `Folder_${value}`
+        const tableName = `FOLDER_${value}`
+        console.log( tableNameArray, tableName, tableNameArray.includes(tableName))
         if (!tableNameArray.includes(tableName)) {
           return helpers.error("string.validDatasetId")
+        } else if (!value) {
+          return helpers.error("string.datasetIdRequired")
         }
         return value
       })
       .messages({
-        "string.validTableName": "Invalid dataset id",
+        "string.validDatasetId": "Invalid dataset id",
+        "string.datasetIdRequired": "Dataset ID is required",
       }),
     samplingInterval: Joi.number()
+      .allow(null, '')
       .integer()
       .min(0),
     samplingSeed: Joi.number()
+      .allow(null, '')
       .integer()
       .min(0),
     beginDt: Joi.string()
+    .allow(null, '')
     .custom((value, helpers) => {
       if (!isValidDateTimeFormat(value)) {
         return helpers.error("string.validDatetimeFormat")
@@ -141,6 +145,7 @@ export const Dialog = ({
       "string.validDatetimeFormat": "Datetime format is wrong. It must be yyyy-mm-ddTHH:MM such as 2024-04-01T10:30",
     }),
     endDt: Joi.string()
+    .allow(null, '')
     .custom((value, helpers) => {
       if (!isValidDateTimeFormat(value)) {
         return helpers.error("string.validDatetimeFormat")
@@ -151,15 +156,10 @@ export const Dialog = ({
       "string.validDatetimeFormat": "Datetime format is wrong. It must be yyyy-mm-ddTHH:MM such as 2024-04-01T10:30",
     }),
     limit: Joi.number()
+      .allow(null, '')
       .integer()
       .min(1),
   })
-
-  useEffect(() => {
-    if (schema) {
-      resetToDefaults()
-    }
-  }, [schema])
 
   useEffect(() => {
     if (open) {
@@ -167,12 +167,11 @@ export const Dialog = ({
     }
   }, [open])
 
-  const columnCount = defaults.schemaColumns.length
-
   return (
     <Drawer
       mode={ "side" }
       open={open}
+      trigger={ trigger }
       onDismiss={() => {
         resetToDefaults()
         onOpenChange(undefined)
@@ -190,7 +189,7 @@ export const Dialog = ({
           name="export-data-form"
           defaultValues={defaults}
           onSubmit={(values) => {
-            onOpenChange(undefined)
+            onFormChange(values)
           }}
           onChange={(values) => setCurrentValues(values as ExportFormValues)}
           validationExportForm={validationExportForm}
