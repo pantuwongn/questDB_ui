@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, CSSProperties } from "react"
 import { Button } from "@questdb/react-components"
 import { Box } from "../Box"
 import { Text } from "../Text"
@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux"
 import { actions } from "../../store"
 import { Panel } from "../../components/Panel"
 import { Actions } from "./actions"
+import GridLoader from "react-spinners/GridLoader";
 
 const StyledContentWrapper = styled(Drawer.ContentWrapper)`
   --columns: auto 120px; /* magic numbers to fit input, type dropdown and remove button nicely */
@@ -79,11 +80,19 @@ export const Dialog = ({
     limit
   }
 
+  const [loading, setLoading] = useState(false);
+  const [color, setColor] = useState("#ffffff");
   const [defaults, setDefaults] = useState<ExportFormValues>(formDefaults)
   const [currentValues, setCurrentValues] =
     useState<ExportFormValues>(formDefaults)
   const [lastFocusedIndex, setLastFocusedIndex] = useState<number | undefined>()
   const dispatch = useDispatch()
+
+  const override: CSSProperties = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "red",
+  };
 
   const resetToDefaults = () => {
     setDefaults({
@@ -189,7 +198,9 @@ export const Dialog = ({
           name="export-data-form"
           defaultValues={defaults}
           onSubmit={(values) => {
+            setLoading(true)
             onFormChange(values)
+            setLoading(false)
           }}
           onChange={(values) => setCurrentValues(values as ExportFormValues)}
           validationExportForm={validationExportForm}
@@ -197,9 +208,19 @@ export const Dialog = ({
           <Panel.Header
             title={"Export Data to CSV file"}
             afterTitle={
-              <Actions
-                ctaText={ctaText}
-              />
+              <Box align="flex-end">
+                <GridLoader
+                  color={color}
+                  loading={loading}
+                  size={5}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+                <Actions
+                  ctaText={ctaText}
+                  loading={loading}
+                />
+              </Box>
             }
           />
           <Items>

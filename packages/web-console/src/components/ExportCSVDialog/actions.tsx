@@ -6,12 +6,14 @@ import type { Action } from "./types"
 
 export const Actions = ({
   ctaText,
+  loading,
 }: {
   ctaText: string
+  loading: boolean
 }) => {
   return (
     <Box gap="1rem">
-      <Form.Submit prefixIcon={<FileIcon size={18} />} variant="success">
+      <Form.Submit disabled={loading} prefixIcon={<FileIcon size={18} />} variant="success">
         {ctaText}
       </Form.Submit>
     </Box>

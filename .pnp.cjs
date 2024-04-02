@@ -6354,7 +6354,7 @@ const RAW_RUNTIME_STATE =
           ["date-fns", "npm:2.14.0"],\
           ["dexie", "npm:3.2.4"],\
           ["dexie-react-hooks", "virtual:b7c775051d99785ec73273707ec685f06b84c737b39cc023ebc60bda25254288f27e86643fb15b7a00bd8a6d76cc119d4628443d858e76eb62af2718d7eb18cf#npm:1.1.6"],\
-          ["dotenv", "npm:10.0.0"],\
+          ["dotenv", "npm:16.4.5"],\
           ["echarts", "npm:5.4.3"],\
           ["eslint", "npm:8.51.0"],\
           ["eslint-config-prettier", "virtual:abd86f0db4e628a3d1844be9352358a814881ef2b82dee67188058dec9fd0f37a9154622d1055dbe04477d6e93c1d74ae4e55efba208fff05df26b9f136509a2#npm:8.10.0"],\
@@ -6389,6 +6389,7 @@ const RAW_RUNTIME_STATE =
           ["react-popper", "virtual:b7c775051d99785ec73273707ec685f06b84c737b39cc023ebc60bda25254288f27e86643fb15b7a00bd8a6d76cc119d4628443d858e76eb62af2718d7eb18cf#npm:2.2.3"],\
           ["react-redux", "virtual:b7c775051d99785ec73273707ec685f06b84c737b39cc023ebc60bda25254288f27e86643fb15b7a00bd8a6d76cc119d4628443d858e76eb62af2718d7eb18cf#npm:7.2.0"],\
           ["react-refresh", "npm:0.14.0"],\
+          ["react-spinners", "virtual:b7c775051d99785ec73273707ec685f06b84c737b39cc023ebc60bda25254288f27e86643fb15b7a00bd8a6d76cc119d4628443d858e76eb62af2718d7eb18cf#npm:0.13.8"],\
           ["react-toastify", "virtual:b7c775051d99785ec73273707ec685f06b84c737b39cc023ebc60bda25254288f27e86643fb15b7a00bd8a6d76cc119d4628443d858e76eb62af2718d7eb18cf#npm:9.1.3"],\
           ["react-transition-group", "virtual:b7c775051d99785ec73273707ec685f06b84c737b39cc023ebc60bda25254288f27e86643fb15b7a00bd8a6d76cc119d4628443d858e76eb62af2718d7eb18cf#npm:4.4.1"],\
           ["react-virtuoso", "virtual:b7c775051d99785ec73273707ec685f06b84c737b39cc023ebc60bda25254288f27e86643fb15b7a00bd8a6d76cc119d4628443d858e76eb62af2718d7eb18cf#npm:2.19.1"],\
@@ -15413,10 +15414,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["dotenv", [\
-      ["npm:10.0.0", {\
-        "packageLocation": "./.yarn/cache/dotenv-npm-10.0.0-36b272df25-55f701ae21.zip/node_modules/dotenv/",\
+      ["npm:16.4.5", {\
+        "packageLocation": "./.yarn/cache/dotenv-npm-16.4.5-bcb20eb95d-55a3134601.zip/node_modules/dotenv/",\
         "packageDependencies": [\
-          ["dotenv", "npm:10.0.0"]\
+          ["dotenv", "npm:16.4.5"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -24392,6 +24393,32 @@ const RAW_RUNTIME_STATE =
         ],\
         "packagePeers": [\
           "@types/react",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["react-spinners", [\
+      ["npm:0.13.8", {\
+        "packageLocation": "./.yarn/cache/react-spinners-npm-0.13.8-bf54f5b324-8564af7bf5.zip/node_modules/react-spinners/",\
+        "packageDependencies": [\
+          ["react-spinners", "npm:0.13.8"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:b7c775051d99785ec73273707ec685f06b84c737b39cc023ebc60bda25254288f27e86643fb15b7a00bd8a6d76cc119d4628443d858e76eb62af2718d7eb18cf#npm:0.13.8", {\
+        "packageLocation": "./.yarn/__virtual__/react-spinners-virtual-2d783ccfb9/0/cache/react-spinners-npm-0.13.8-bf54f5b324-8564af7bf5.zip/node_modules/react-spinners/",\
+        "packageDependencies": [\
+          ["react-spinners", "virtual:b7c775051d99785ec73273707ec685f06b84c737b39cc023ebc60bda25254288f27e86643fb15b7a00bd8a6d76cc119d4628443d858e76eb62af2718d7eb18cf#npm:0.13.8"],\
+          ["@types/react", "npm:17.0.2"],\
+          ["@types/react-dom", "npm:16.9.8"],\
+          ["react", "npm:17.0.2"],\
+          ["react-dom", "virtual:455cc1315669a6e622038e6093381f8d95ab8bb473af09abaaf7e72fce2d6a9ff2602fe53215abe1948a8259d689b4411a17531ea4acc5522a659c642ee7696d#npm:17.0.2"]\
+        ],\
+        "packagePeers": [\
+          "@types/react-dom",\
+          "@types/react",\
+          "react-dom",\
           "react"\
         ],\
         "linkType": "HARD"\

@@ -30,7 +30,7 @@ export const ExportDialog = () => {
       dispatch(actions.console.setActiveSidebar("export"))
     }
   }, [exportDialogOpen])
-
+  console.log(process.env)
   return (
     <ExportCSVDialog
       action="export"
