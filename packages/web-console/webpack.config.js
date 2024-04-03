@@ -174,6 +174,9 @@ module.exports = {
       "process.env": {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         COMMIT_HASH: JSON.stringify(process.env.COMMIT_HASH),
+        BE_URL: JSON.stringify(process.env.BE_URL),
+        BE_USER: JSON.stringify(process.env.BE_USER),
+        BE_PASS: JSON.stringify(process.env.BE_PASS),
       },
     }),
 

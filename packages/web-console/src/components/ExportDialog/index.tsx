@@ -18,6 +18,22 @@ export const ExportDialog = () => {
   const { readOnly } = useSelector(selectors.console.getConfig)
 
   const handleFormChange = (values: ExportFormValues) => {
+    const url = process.env.BE_URL;
+    const user = process.env.BE_USER;
+    const password = process.env.BE_PASSWORD;
+    fetch('http://188.166.235.85:8888/export?dataset_id=12T&sampling_interval=900&sampling_seed=60', {
+        headers: {
+          'Authorization': 'Basic ' + btoa('usseeerrrr:password')
+        }
+    }).then(async (response) => {
+      const csvContent = await response.text();
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8,' })
+      const element = document.createElement("a");
+      element.href = URL.createObjectURL(blob);
+      element.download = "export_data.csv";
+      document.body.appendChild(element); // Required for this to work in FireFox
+      element.click();
+    }).catch(error => console.log(error));
     console.log("ExportDialog handleFormChange", values)
   }
 
@@ -30,7 +46,7 @@ export const ExportDialog = () => {
       dispatch(actions.console.setActiveSidebar("export"))
     }
   }, [exportDialogOpen])
-  console.log(process.env)
+
   return (
     <ExportCSVDialog
       action="export"
