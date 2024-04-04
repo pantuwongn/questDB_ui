@@ -30,7 +30,18 @@ export const ExportDialog = () => {
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8,' })
       const element = document.createElement("a");
       element.href = URL.createObjectURL(blob);
-      element.download = "export_data.csv";
+      let filename = `export_data_${values.datasetId}`
+      let rows = csvContent.split('\n');
+      if (rows.length > 1) {
+        const header = rows[0].trim().split(',');
+        const collectionTimeIndex = header.indexOf('collectionTime');
+        const firstRow = rows[1].trim().split(',');
+        const lastRow = rows[rows.length - 1].trim().split(',');
+        const startCollectionDate = firstRow[collectionTimeIndex].split(' ')[0];
+        const stopCollectionDate = lastRow[collectionTimeIndex].split(' ')[0];
+        filename = `export_data_${values.datasetId}_${startCollectionDate}_${stopCollectionDate}.csv`;
+      }
+      element.download = filename;
       document.body.appendChild(element); // Required for this to work in FireFox
       element.click();
     }).catch(error => console.log(error));
