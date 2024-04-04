@@ -20,7 +20,7 @@ export const ExportDialog = () => {
   const handleFormChange = (values: ExportFormValues) => {
     const url = process.env.BE_URL;
     const user = process.env.BE_USER;
-    const password = process.env.BE_PASSWORD;
+    const password = process.env.BE_PASS;
     let endpoint = `${url}/export?dataset_id=${values.datasetId}`;
     if (values.samplingInterval) {
       endpoint += `&sampling_interval=${values.samplingInterval}`;
