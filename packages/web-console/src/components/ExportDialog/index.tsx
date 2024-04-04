@@ -37,9 +37,11 @@ export const ExportDialog = () => {
     if (values.limit) {
       endpoint += `&limit=${values.limit}`;
     }
+    const userPassword = `${user}:${password}`;
+    console.log(userPassword)
     fetch(endpoint, {
         headers: {
-          'Authorization': 'Basic ' + btoa(`${user}:${password}`)
+          'Authorization': 'Basic ' + btoa(userPassword)
         }
     }).then(async (response) => {
       const csvContent = await response.text();
