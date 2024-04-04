@@ -21,9 +21,25 @@ export const ExportDialog = () => {
     const url = process.env.BE_URL;
     const user = process.env.BE_USER;
     const password = process.env.BE_PASSWORD;
-    fetch('http://188.166.235.85:8888/export?dataset_id=12T&sampling_interval=900&sampling_seed=60', {
+    let endpoint = `${url}/export?dataset_id=${values.datasetId}`;
+    if (values.samplingInterval) {
+      endpoint += `&sampling_interval=${values.samplingInterval}`;
+    }
+    if (values.samplingSeed) {
+      endpoint += `&sampling_seed=${values.samplingSeed}`;
+    }
+    if (values.beginDt) {
+      endpoint += `&begin_dt=${values.beginDt}`;
+    }
+    if (values.endDt) {
+      endpoint += `&end_dt=${values.endDt}`;
+    }
+    if (values.limit) {
+      endpoint += `&limit=${values.limit}`;
+    }
+    fetch(endpoint, {
         headers: {
-          'Authorization': 'Basic ' + btoa('usseeerrrr:password')
+          'Authorization': 'Basic ' + btoa(`${user}:${password}`)
         }
     }).then(async (response) => {
       const csvContent = await response.text();
@@ -34,7 +50,7 @@ export const ExportDialog = () => {
       let rows = csvContent.split('\n');
       if (rows.length > 1) {
         const header = rows[0].trim().split(',');
-        const collectionTimeIndex = header.indexOf('collectionTime');
+        const collectionTimeIndex = header.indexOf('CollectionTime');
         const firstRow = rows[1].trim().split(',');
         const lastRow = rows[rows.length - 1].trim().split(',');
         const startCollectionDate = firstRow[collectionTimeIndex].split(' ')[0];
