@@ -38,7 +38,6 @@ export const ExportDialog = () => {
       endpoint += `&limit=${values.limit}`;
     }
     const userPassword = `${user}:${password}`;
-    console.log(userPassword)
     fetch(endpoint, {
         headers: {
           'Authorization': 'Basic ' + btoa(userPassword)
@@ -51,10 +50,10 @@ export const ExportDialog = () => {
       let filename = `export_data_${values.datasetId}`
       let rows = csvContent.split('\n');
       if (rows.length > 1) {
-        const header = rows[0].trim().split(',');
+        const header = rows[0].trim().split(',').map(item => item.trim());
         const collectionTimeIndex = header.indexOf('CollectionTime');
-        const firstRow = rows[1].trim().split(',');
-        const lastRow = rows[rows.length - 1].trim().split(',');
+        const firstRow = rows[1].trim().split(',').map(item => item.trim());
+        const lastRow = rows[rows.length - 2].trim().split(',').map(item => item.trim());
         const startCollectionDate = firstRow[collectionTimeIndex].split(' ')[0];
         const stopCollectionDate = lastRow[collectionTimeIndex].split(' ')[0];
         filename = `export_data_${values.datasetId}_${startCollectionDate}_${stopCollectionDate}.csv`;
