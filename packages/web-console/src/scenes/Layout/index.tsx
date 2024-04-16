@@ -35,6 +35,7 @@ import { selectors } from "../../store"
 import News from "../../scenes/News"
 import { CreateTableDialog } from "../../components/CreateTableDialog"
 import { ExportDialog } from "../../components/ExportDialog"
+import { ReportDialog } from "../../components/ReportDialog"
 import { EditorProvider } from "../../providers"
 import { Help } from "./help"
 
@@ -97,6 +98,8 @@ const Layout = () => {
             <CreateTableDialog />
 
             <ExportDialog />
+
+            <ReportDialog />
           </Sidebar>
         </Root>
 
