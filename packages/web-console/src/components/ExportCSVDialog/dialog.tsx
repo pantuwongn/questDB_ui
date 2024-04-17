@@ -80,8 +80,7 @@ export const Dialog = ({
     limit
   }
 
-  const [loading, setLoading] = useState(false);
-  setLoading(true);
+  const [loading, setLoading] = useState(true);
   console.log(loading)
   const [color, setColor] = useState("#ffffff");
   const [defaults, setDefaults] = useState<ExportFormValues>(formDefaults)
