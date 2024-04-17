@@ -71,7 +71,6 @@ export const ReportDialog = () => {
           }
         />
       }
-      ctaText="Report"
     />
   )
 }
