@@ -198,9 +198,11 @@ export const Dialog = ({
           name="export-data-form"
           defaultValues={defaults}
           onSubmit={(values) => {
-            setLoading(true)
-            onFormChange(values)
-            setLoading(false)
+            setLoading(true);
+            console.log(loading)
+            onFormChange(values);
+            setLoading(false);
+            console.log(loading)
           }}
           onChange={(values) => setCurrentValues(values as ExportFormValues)}
           validationExportForm={validationExportForm}

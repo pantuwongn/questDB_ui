@@ -30,7 +30,6 @@ export const ReportDialog = () => {
       console.log(response);
     }).catch(error => console.log(error));
   };
-  loadReport();
   useEffect(() => {
     setReportDialogOpen(activeSidebar === "report" ? "report" : undefined)
   }, [activeSidebar])

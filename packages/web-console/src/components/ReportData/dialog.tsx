@@ -59,7 +59,6 @@ type Props = {
   open: boolean
   trigger?: React.ReactNode
   tables?: QuestDB.Table[]
-  ctaText: string
 }
 
 export const Dialog = ({
