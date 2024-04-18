@@ -7,6 +7,7 @@ import { PrimaryToggleButton } from "../../components"
 import { BUTTON_ICON_SIZE } from "../../consts"
 import { IconWithTooltip } from "../../components/IconWithTooltip"
 
+
 export const ReportDialog = () => {
   const [reportDialogOpen, setReportDialogOpen] = useState<
     string | undefined
@@ -16,20 +17,6 @@ export const ReportDialog = () => {
   const activeSidebar = useSelector(selectors.console.getActiveSidebar)
   const { readOnly } = useSelector(selectors.console.getConfig)
 
-  const loadReport = () => {
-    const url = process.env.BE_URL;
-    const user = process.env.BE_USER;
-    const password = process.env.BE_PASS;
-    let endpoint = `${url}/report`;
-    const userPassword = `${user}:${password}`;
-    fetch(endpoint, {
-        headers: {
-          'Authorization': 'Basic ' + btoa(userPassword)
-        }
-    }).then(async (response) => {
-      console.log(response);
-    }).catch(error => console.log(error));
-  };
   useEffect(() => {
     setReportDialogOpen(activeSidebar === "report" ? "report" : undefined)
   }, [activeSidebar])
@@ -39,7 +26,6 @@ export const ReportDialog = () => {
       dispatch(actions.console.setActiveSidebar("report"))
     }
   }, [reportDialogOpen])
-
   return (
     <ReportDataDialog
       action="report"
