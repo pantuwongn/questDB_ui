@@ -16,8 +16,8 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production COMMIT_HASH=$(git rev-parse --short HEAD) webpack",
     "postbuild": "node post-build.js",
-    "start": "COMMIT_HASH=$(git rev-parse --short HEAD) BE_URL=http://188.166.235.85:8888 BE_USER=usseeerrrr BE_PASS=password webpack-dev-server --progress --host 0.0.0.0",
-    "start:prod": "cross-env NODE_ENV=production COMMIT_HASH=$(git rev-parse --short HEAD)  BE_URL=http://188.166.235.85:8888 BE_USER=usseeerrrr BE_PASS=password webpack-dev-server --progress --host 0.0.0.0",
+    "start": "COMMIT_HASH=$(git rev-parse --short HEAD) BE_URL=http://localhost:8888 BE_USER=usseeerrrr BE_PASS=password webpack-dev-server --progress --host 0.0.0.0",
+    "start:prod": "cross-env NODE_ENV=production COMMIT_HASH=$(git rev-parse --short HEAD)  BE_URL=http://localhost:8888 BE_USER=usseeerrrr BE_PASS=password webpack-dev-server --progress --host 0.0.0.0",
     "test": "jest --watch --runInBand",
     "test:prod": "jest --ci --runInBand"
   },

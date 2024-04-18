@@ -17,7 +17,10 @@ export const ExportDialog = () => {
   const activeSidebar = useSelector(selectors.console.getActiveSidebar)
   const { readOnly } = useSelector(selectors.console.getConfig)
 
+  const [loading, setLoading] = useState(false);
+
   const handleFormChange = (values: ExportFormValues) => {
+    setLoading(true);
     const url = process.env.BE_URL;
     const user = process.env.BE_USER;
     const password = process.env.BE_PASS;
@@ -43,12 +46,14 @@ export const ExportDialog = () => {
           'Authorization': 'Basic ' + btoa(userPassword)
         }
     }).then(async (response) => {
+      console.log('Get response')
       const csvContent = await response.text();
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8,' })
       const element = document.createElement("a");
       element.href = URL.createObjectURL(blob);
       let filename = `export_data_${values.datasetId}`
       let rows = csvContent.split('\n');
+      console.log('after split rows')
       if (rows.length > 1) {
         const header = rows[0].trim().split(',').map(item => item.trim());
         const collectionTimeIndex = header.indexOf('CollectionTime');
@@ -61,8 +66,12 @@ export const ExportDialog = () => {
       element.download = filename;
       document.body.appendChild(element); // Required for this to work in FireFox
       element.click();
-    }).catch(error => console.log(error));
-    console.log("ExportDialog handleFormChange", values)
+      console.log("ExportDialog handleFormChange", values);
+      setLoading(false);
+    }).catch(error => {
+      console.log(error);
+      setLoading(false);
+    });
   }
 
   useEffect(() => {
@@ -83,6 +92,7 @@ export const ExportDialog = () => {
       onOpenChange={(open) => setExportDialogOpen(open)}
       open={exportDialogOpen !== undefined}
       onFormChange={handleFormChange}
+      loading={loading}
       trigger={
         <IconWithTooltip
           icon={

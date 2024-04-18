@@ -54,6 +54,7 @@ type Props = {
   trigger?: React.ReactNode
   tables?: QuestDB.Table[]
   ctaText: string
+  loading: boolean
 }
 
 export const Dialog = ({
@@ -70,6 +71,7 @@ export const Dialog = ({
   tables,
   trigger,
   ctaText,
+  loading,
 }: Props) => {
   const formDefaults = {
     datasetId,
@@ -80,8 +82,6 @@ export const Dialog = ({
     limit
   }
 
-  const [loading, setLoading] = useState(true);
-  console.log(loading)
   const [color, setColor] = useState("#ffffff");
   const [defaults, setDefaults] = useState<ExportFormValues>(formDefaults)
   const [currentValues, setCurrentValues] =
@@ -123,7 +123,6 @@ export const Dialog = ({
       .required()
       .custom((value, helpers) => {
         const tableName = `FOLDER_${value}`
-        console.log( tableNameArray, tableName, tableNameArray.includes(tableName))
         if (!tableNameArray.includes(tableName)) {
           return helpers.error("string.validDatasetId")
         } else if (!value) {
@@ -198,12 +197,8 @@ export const Dialog = ({
         <Form<ExportFormValues>
           name="export-data-form"
           defaultValues={defaults}
-          onSubmit={(values) => {
-            setLoading(true);
-            console.log(loading)
+          onSubmit={async (values) => {
             onFormChange(values);
-            setLoading(false);
-            console.log(loading)
           }}
           onChange={(values) => setCurrentValues(values as ExportFormValues)}
           validationExportForm={validationExportForm}
