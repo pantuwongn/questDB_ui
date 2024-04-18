@@ -151,7 +151,7 @@ export const Dialog = ({
       const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}.${seconds}`;
       return formattedDate;
   };
-  if (isLoading || !data) {
+  if (isLoading || data.length === 0) {
     return (
       <Drawer
         mode={ "side" }
