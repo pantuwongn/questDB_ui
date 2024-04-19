@@ -54,6 +54,10 @@ module.exports = {
     publicPath: config.assetPath,
     path: path.resolve(__dirname, "dist"),
   },
+  
+  devServer: {
+    allowedHosts: 'all',
+  },
 
   watchOptions: {
     ignored: /[\\/]\.yarn[\\/]/,
