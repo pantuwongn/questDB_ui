@@ -181,6 +181,7 @@ module.exports = {
         BE_URL: JSON.stringify(process.env.BE_URL),
         BE_USER: JSON.stringify(process.env.BE_USER),
         BE_PASS: JSON.stringify(process.env.BE_PASS),
+        DB_URL: JSON.stringify(process.env.DB_URL),
       },
     }),
 

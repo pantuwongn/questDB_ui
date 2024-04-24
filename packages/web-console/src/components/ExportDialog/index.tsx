@@ -18,6 +18,7 @@ export const ExportDialog = () => {
   const { readOnly } = useSelector(selectors.console.getConfig)
 
   const [loading, setLoading] = useState(false);
+  const [showLoadDescription, setShowLoadDescription] = useState(false);
 
   const handleFormChange = (values: ExportFormValues) => {
     setLoading(true);
@@ -47,27 +48,62 @@ export const ExportDialog = () => {
         }
     }).then(async (response) => {
       console.log('Get response')
-      const csvContent = await response.text();
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8,' })
-      const element = document.createElement("a");
-      element.href = URL.createObjectURL(blob);
-      let filename = `export_data_${values.datasetId}`
-      let rows = csvContent.split('\n');
-      console.log('after split rows')
-      if (rows.length > 1) {
-        const header = rows[0].trim().split(',').map(item => item.trim());
-        const collectionTimeIndex = header.indexOf('CollectionTime');
-        const firstRow = rows[1].trim().split(',').map(item => item.trim());
-        const lastRow = rows[rows.length - 2].trim().split(',').map(item => item.trim());
-        const startCollectionDate = firstRow[collectionTimeIndex].split(' ')[0];
-        const stopCollectionDate = lastRow[collectionTimeIndex].split(' ')[0];
-        filename = `export_data_${values.datasetId}_${startCollectionDate}_${stopCollectionDate}.csv`;
-      }
-      element.download = filename;
-      document.body.appendChild(element); // Required for this to work in FireFox
-      element.click();
-      console.log("ExportDialog handleFormChange", values);
       setLoading(false);
+      setShowLoadDescription(true);
+      const resp = await response.json();
+
+      if (values.limit) {
+        const dbEndPoint = `/exec?query=${encodeURIComponent(resp.sql)}`;
+        fetch(dbEndPoint).then(async (response) => {
+          const resp = await response.json();
+          const columns = resp.columns.map((col: any) => col.name);
+          let csvContent = columns.join(',') + '\n';
+          for (let row of resp.dataset) {
+            csvContent += row.join(',') + '\n';
+          }
+          const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8,' })
+          const element = document.createElement("a");
+          element.href = URL.createObjectURL(blob);
+          element.download = resp.filename;
+          document.body.appendChild(element); // Required for this to work in FireFox
+          element.click();
+          setShowLoadDescription(false);
+        }).catch(error => {
+          console.log(error);
+        });
+      }
+      else {
+        let numRows = resp.numRows;
+        const dbEndPoint = `/exec?query=${encodeURIComponent(resp.sql)}`;
+        let csvContent = ''
+        let ep = '';
+        console.log(numRows, dbEndPoint)
+        for (let limit_1 = 1, limit_2 = 100000; (limit_1 == 1 || limit_2 <= numRows); limit_1 += 100000, limit_2 += 100000) {
+          if (limit_1 == 1) {
+            ep = `${dbEndPoint}&limit=${limit_2}`;
+          }else{
+            ep = `${dbEndPoint}&limit=${limit_1},${limit_2}`;
+          }
+          console.log(ep);
+          const response = await fetch(ep);
+          const resp = await response.json();
+          console.log('get resp')
+          if (limit_1 == 1) {
+            const columns = resp.columns.map((col: any) => col.name);
+            csvContent = columns.join(',') + '\n';
+          }
+          for (let row of resp.dataset) {
+            csvContent += row.join(',') + '\n';
+          }
+        }
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8,' })
+        const element = document.createElement("a");
+        element.href = URL.createObjectURL(blob);
+        element.download = resp.filename;
+        document.body.appendChild(element); // Required for this to work in FireFox
+        element.click();
+        setShowLoadDescription(false);
+      }
     }).catch(error => {
       console.log(error);
       setLoading(false);
@@ -93,6 +129,7 @@ export const ExportDialog = () => {
       open={exportDialogOpen !== undefined}
       onFormChange={handleFormChange}
       loading={loading}
+      showLoadDescription={showLoadDescription}
       trigger={
         <IconWithTooltip
           icon={

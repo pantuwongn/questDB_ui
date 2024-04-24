@@ -6389,6 +6389,7 @@ const RAW_RUNTIME_STATE =
           ["react-popper", "virtual:b7c775051d99785ec73273707ec685f06b84c737b39cc023ebc60bda25254288f27e86643fb15b7a00bd8a6d76cc119d4628443d858e76eb62af2718d7eb18cf#npm:2.2.3"],\
           ["react-redux", "virtual:b7c775051d99785ec73273707ec685f06b84c737b39cc023ebc60bda25254288f27e86643fb15b7a00bd8a6d76cc119d4628443d858e76eb62af2718d7eb18cf#npm:7.2.0"],\
           ["react-refresh", "npm:0.14.0"],\
+          ["react-simple-snackbar", "virtual:b7c775051d99785ec73273707ec685f06b84c737b39cc023ebc60bda25254288f27e86643fb15b7a00bd8a6d76cc119d4628443d858e76eb62af2718d7eb18cf#npm:1.1.11"],\
           ["react-spinners", "virtual:b7c775051d99785ec73273707ec685f06b84c737b39cc023ebc60bda25254288f27e86643fb15b7a00bd8a6d76cc119d4628443d858e76eb62af2718d7eb18cf#npm:0.13.8"],\
           ["react-toastify", "virtual:b7c775051d99785ec73273707ec685f06b84c737b39cc023ebc60bda25254288f27e86643fb15b7a00bd8a6d76cc119d4628443d858e76eb62af2718d7eb18cf#npm:9.1.3"],\
           ["react-transition-group", "virtual:b7c775051d99785ec73273707ec685f06b84c737b39cc023ebc60bda25254288f27e86643fb15b7a00bd8a6d76cc119d4628443d858e76eb62af2718d7eb18cf#npm:4.4.1"],\
@@ -24398,6 +24399,34 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["react-simple-snackbar", [\
+      ["npm:1.1.11", {\
+        "packageLocation": "./.yarn/cache/react-simple-snackbar-npm-1.1.11-2975bb4e25-930bf128eb.zip/node_modules/react-simple-snackbar/",\
+        "packageDependencies": [\
+          ["react-simple-snackbar", "npm:1.1.11"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:b7c775051d99785ec73273707ec685f06b84c737b39cc023ebc60bda25254288f27e86643fb15b7a00bd8a6d76cc119d4628443d858e76eb62af2718d7eb18cf#npm:1.1.11", {\
+        "packageLocation": "./.yarn/__virtual__/react-simple-snackbar-virtual-691774cdd5/0/cache/react-simple-snackbar-npm-1.1.11-2975bb4e25-930bf128eb.zip/node_modules/react-simple-snackbar/",\
+        "packageDependencies": [\
+          ["react-simple-snackbar", "virtual:b7c775051d99785ec73273707ec685f06b84c737b39cc023ebc60bda25254288f27e86643fb15b7a00bd8a6d76cc119d4628443d858e76eb62af2718d7eb18cf#npm:1.1.11"],\
+          ["@babel/runtime", "npm:7.23.1"],\
+          ["@types/react", "npm:17.0.2"],\
+          ["@types/react-dom", "npm:16.9.8"],\
+          ["react", "npm:17.0.2"],\
+          ["react-dom", "virtual:455cc1315669a6e622038e6093381f8d95ab8bb473af09abaaf7e72fce2d6a9ff2602fe53215abe1948a8259d689b4411a17531ea4acc5522a659c642ee7696d#npm:17.0.2"],\
+          ["react-transition-group", "virtual:691774cdd517da3b8e9574a88a1527a49bb514e8e454115a509183aaded1db14a66fb75a229ebef14fd6c849e2f521eb0377358fbcc91c86bbb80eb0a4743063#npm:4.4.5"]\
+        ],\
+        "packagePeers": [\
+          "@types/react-dom",\
+          "@types/react",\
+          "react-dom",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["react-spinners", [\
       ["npm:0.13.8", {\
         "packageLocation": "./.yarn/cache/react-spinners-npm-0.13.8-bf54f5b324-8564af7bf5.zip/node_modules/react-spinners/",\
@@ -24483,6 +24512,34 @@ const RAW_RUNTIME_STATE =
           ["react-transition-group", "npm:4.4.1"]\
         ],\
         "linkType": "SOFT"\
+      }],\
+      ["npm:4.4.5", {\
+        "packageLocation": "./.yarn/cache/react-transition-group-npm-4.4.5-98ea4ef96e-ca32d3fd21.zip/node_modules/react-transition-group/",\
+        "packageDependencies": [\
+          ["react-transition-group", "npm:4.4.5"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:691774cdd517da3b8e9574a88a1527a49bb514e8e454115a509183aaded1db14a66fb75a229ebef14fd6c849e2f521eb0377358fbcc91c86bbb80eb0a4743063#npm:4.4.5", {\
+        "packageLocation": "./.yarn/__virtual__/react-transition-group-virtual-b9638420ec/0/cache/react-transition-group-npm-4.4.5-98ea4ef96e-ca32d3fd21.zip/node_modules/react-transition-group/",\
+        "packageDependencies": [\
+          ["react-transition-group", "virtual:691774cdd517da3b8e9574a88a1527a49bb514e8e454115a509183aaded1db14a66fb75a229ebef14fd6c849e2f521eb0377358fbcc91c86bbb80eb0a4743063#npm:4.4.5"],\
+          ["@babel/runtime", "npm:7.23.1"],\
+          ["@types/react", "npm:17.0.2"],\
+          ["@types/react-dom", "npm:16.9.8"],\
+          ["dom-helpers", "npm:5.2.1"],\
+          ["loose-envify", "npm:1.4.0"],\
+          ["prop-types", "npm:15.8.1"],\
+          ["react", "npm:17.0.2"],\
+          ["react-dom", "virtual:455cc1315669a6e622038e6093381f8d95ab8bb473af09abaaf7e72fce2d6a9ff2602fe53215abe1948a8259d689b4411a17531ea4acc5522a659c642ee7696d#npm:17.0.2"]\
+        ],\
+        "packagePeers": [\
+          "@types/react-dom",\
+          "@types/react",\
+          "react-dom",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
       }],\
       ["virtual:b7c775051d99785ec73273707ec685f06b84c737b39cc023ebc60bda25254288f27e86643fb15b7a00bd8a6d76cc119d4628443d858e76eb62af2718d7eb18cf#npm:4.4.1", {\
         "packageLocation": "./.yarn/__virtual__/react-transition-group-virtual-80f1aee151/0/cache/react-transition-group-npm-4.4.1-5b62a122ef-393ebcd375.zip/node_modules/react-transition-group/",\

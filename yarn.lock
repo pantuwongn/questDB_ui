@@ -3075,6 +3075,7 @@ __metadata:
     react-popper: "npm:2.2.3"
     react-redux: "npm:7.2.0"
     react-refresh: "npm:^0.14.0"
+    react-simple-snackbar: "npm:^1.1.11"
     react-spinners: "npm:^0.13.8"
     react-toastify: "npm:^9.1.3"
     react-transition-group: "npm:4.4.1"
@@ -17050,6 +17051,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-simple-snackbar@npm:^1.1.11":
+  version: 1.1.11
+  resolution: "react-simple-snackbar@npm:1.1.11"
+  dependencies:
+    "@babel/runtime": "npm:^7.13.10"
+    react-transition-group: "npm:^4.4.1"
+  peerDependencies:
+    react: 16.x
+    react-dom: 16.x
+  checksum: 10/930bf128eb35734230aafc3c929ff3efd9194256497878ff2405c8ec0bb253ddfbee65859fd7ac1b970d4095881bd62862845f3f200333be32687d135c596fe8
+  languageName: node
+  linkType: hard
+
 "react-spinners@npm:^0.13.8":
   version: 0.13.8
   resolution: "react-spinners@npm:0.13.8"
@@ -17101,6 +17115,21 @@ __metadata:
     react: ">=16.6.0"
     react-dom: ">=16.6.0"
   checksum: 10/393ebcd37591d2ceef5d527f78b35ce34a49cffe4c24f1f4ff75c145c31943a4b0eb9d9e99b76651db650bafcb526111d78bae834ce464add8a142504b0c56e4
+  languageName: node
+  linkType: hard
+
+"react-transition-group@npm:^4.4.1":
+  version: 4.4.5
+  resolution: "react-transition-group@npm:4.4.5"
+  dependencies:
+    "@babel/runtime": "npm:^7.5.5"
+    dom-helpers: "npm:^5.0.1"
+    loose-envify: "npm:^1.4.0"
+    prop-types: "npm:^15.6.2"
+  peerDependencies:
+    react: ">=16.6.0"
+    react-dom: ">=16.6.0"
+  checksum: 10/ca32d3fd2168c976c5d90a317f25d5f5cd723608b415fb3b9006f9d793c8965c619562d0884503a3e44e4b06efbca4fdd1520f30e58ca3e00a0890e637d55419
   languageName: node
   linkType: hard
 

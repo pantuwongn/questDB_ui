@@ -55,6 +55,7 @@ type Props = {
   tables?: QuestDB.Table[]
   ctaText: string
   loading: boolean
+  showLoadDescription: boolean
 }
 
 export const Dialog = ({
@@ -72,6 +73,7 @@ export const Dialog = ({
   trigger,
   ctaText,
   loading,
+  showLoadDescription,
 }: Props) => {
   const formDefaults = {
     datasetId,
@@ -117,6 +119,8 @@ export const Dialog = ({
     const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
     return regex.test(value);
   };
+
+  const loadText = "The data is streaming and download will be started shortly.";
 
   const validationExportForm = Joi.object({
     datasetId: Joi.string()
@@ -214,9 +218,10 @@ export const Dialog = ({
                   aria-label="Loading Spinner"
                   data-testid="loader"
                 />
+                { (!loading && showLoadDescription) ?  <p>Data is being downloaded<br/>Please be patient.!</p> : <p></p>}
                 <Actions
                   ctaText={ctaText}
-                  loading={loading}
+                  loading={loading || showLoadDescription}
                 />
               </Box>
             }
