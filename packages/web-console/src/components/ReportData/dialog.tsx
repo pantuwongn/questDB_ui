@@ -94,6 +94,7 @@ export const Dialog = ({
 }: Props) => {
   const [data, setData] = useState<ReportResponse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [intervalId, setIntervalId] = useState<number | undefined>();
   const [color, setColor] = useState("#ffffff");
   const [lastFocusedIndex, setLastFocusedIndex] = useState<number | undefined>()
   const dispatch = useDispatch()
@@ -132,8 +133,17 @@ export const Dialog = ({
       });
     };
 
-    loadReport();
-  }, []);
+    if (open) {
+      loadReport();
+      let id = setInterval(loadReport, 1000 * 60 * 3);
+      setIntervalId(id);
+      console.log(`Setting interval: ${id}`)
+    } else {
+      clearInterval(intervalId);
+      console.log(`Clearing interval: ${intervalId}`);
+      setIntervalId(undefined);
+    }
+  }, [open]);
 
   const formattedDate = (timestamp:string) => {
       // Convert timestamp to Date object
